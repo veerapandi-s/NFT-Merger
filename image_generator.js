@@ -1,7 +1,8 @@
-import sharp from 'sharp';
-import fs from 'fs';
-import { createWriteStream } from 'fs';
-import { get } from 'https';
+const sharp = require('sharp');
+const fs = require('fs');
+const { get } = require('https');
+const { createWriteStream } = require('fs');
+const { uploadFile } = require('./upload');
 
 
 // For Downloading and storing in the local directory
@@ -77,7 +78,7 @@ const localURL = async (name, urls) => {
         let dir = `raw_image/${name}/layers/${layerName}`;
         let filePath = `${dir}/${fileName}`;
         if (fs.existsSync(filePath)) {
-            continue
+
         } else {
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir, { recursive: true });
@@ -106,6 +107,7 @@ const generateImage = async (layers, name, fileName) => {
         }
         const filePath = `${dir}/${fileName}`;
         await sharp(layers[0].input).composite(layers).toFile(filePath);
+        return filePath;
     } catch (error) {
         console.error("Error in generation", error)
     }
@@ -113,19 +115,31 @@ const generateImage = async (layers, name, fileName) => {
 
 
 const prepareImageData = async (urls, name, description) => {
+    // Downloads the NFT Pieces locally and provides a array of location
     const layersData = await localURL(name, urls);
+    // Layers for processing with sharp
     const layers = layersData.map(file => ({ input: file }));
+    // Getting meta data from the file directory
     const metaData = getProperties(layers, name, description);
+    // Storing the JSON
     saveJSON(metaData, name, name);
-    generateImage(layers, name, `${name}.png`)
+    // Merging pieces into Single NFT
+    const filePath = await generateImage(layers, name, `${name}.png`)
+
+    return {
+        filePath,
+        metaData
+    }
+
 }
 
-const apiFunction = () => {
-    // Collection Name
+// TODO Create API
+const apiFunction = async () => {
+    // NFT Name
     const name = "Test Collection";
-    // Collection Description
+    // NFT Description
     const description = "This is a dummy description";
-    // Layer URL
+    // NFT Pieces to be merged in the given order
     const urls = [
         'https://storage.googleapis.com/rage-infinetnft.appspot.com/layers/layer_1_skin/Cricket_Player_Badger.png',
         'https://storage.googleapis.com/rage-infinetnft.appspot.com/layers/layer_2_wepaon/Cricket_Player_Badger.png',
@@ -137,9 +151,16 @@ const apiFunction = () => {
         'https://storage.googleapis.com/rage-infinetnft.appspot.com/layers/layer_8_boot/Cricket_Player_Badger.png'
     ];
 
-    prepareImageData(urls, name, description);
+    const { filePath, metaData } = await prepareImageData(urls, name, description);
+    const cloud_url = await uploadFile(filePath, filePath)
+    return {
+        status : true,
+        result : {
+            url : cloud_url,
+            metaData : metaData
+        }
+    }
 }
-// apiFunction();
 
 
 const deleteMetaData = () => {
