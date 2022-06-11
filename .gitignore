@@ -1,0 +1,5 @@
+node_modules/
+meta_data/
+raw_image/
+processed_image/
+layers/
