@@ -190,4 +190,8 @@ const deleteData = () => {
     deleteRaw_image();
 }
 
-deleteData();
+
+module.exports = {
+    apiFunction,
+    deleteData
+}
