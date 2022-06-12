@@ -183,3 +183,11 @@ const deleteRaw_image = () => {
         fs.rmSync(dir, { recursive: true, force: true });
     }
 }
+
+const deleteData = () => {
+    deleteMetaData();
+    deleteProcessed_image();
+    deleteRaw_image();
+}
+
+deleteData();
