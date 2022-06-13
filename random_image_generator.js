@@ -1,13 +1,13 @@
 const { pickWeighted } = require("./weighted_random");
-const { saveJSON, getProperties, mergeImageAndSave } = require('./helper/util');
+const { saveJSON, getProperties, mergeImageAndSave, getLocalDir, getLocalDirRandom } = require('./helper/util');
 
 
 
 
-const randomImageFunction = async (noOfNFT,collectionName,description,layers,choice) => {
+const randomImageFunction = async (noOfNFT, collectionName, description, urls, choice) => {
 
     let finalLayer = []
-    
+    let layers = await getLocalDirRandom(collectionName, urls);
     for (let index = 0; index < noOfNFT; index++) {
         let process_layer = [];
         for (let layerIndex = 0; layerIndex < layers.length; layerIndex++) {

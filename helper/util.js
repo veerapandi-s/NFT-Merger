@@ -138,6 +138,22 @@ const getLocalDir = async (name, urls) => {
 
 }
 
+const getLocalDirRandom = async (collectionName, layers) => {
+    const newLayers = [];
+    for (let index = 0; index < layers.length; index++) {
+        const urls = layers[index];
+        try {
+            // Downloads the NFT Pieces locally and provides a array of location
+            const layersData = await getLocalDir(collectionName, urls);
+            newLayers.push(layersData);
+        } catch (error) {
+            console.log("Error", error);
+        }
+    }
+    return newLayers;
+}
+
+
 module.exports = {
     capitalizeFirstLetter,
     downloadImage,
@@ -148,5 +164,6 @@ module.exports = {
     saveJSON,
     getProperties,
     mergeImageAndSave,
-    getLocalDir
+    getLocalDir,
+    getLocalDirRandom
 }
