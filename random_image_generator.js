@@ -5,7 +5,9 @@ const { uploadFile } = require("./upload");
 
 
 
-const randomImageFunction = async (noOfNFT, collectionName, description, urls, choice) => {
+const createCollectionNFT = async (req, res) => {
+
+    const { noOfNFT, collectionName, description, urls, choice } = req.body;
 
     let finalLayer = []
     let layers = await getLocalDirRandom(collectionName, urls);
@@ -37,13 +39,17 @@ const randomImageFunction = async (noOfNFT, collectionName, description, urls, c
         saveJSON(metaData, fileDirJson, `${fileNameJson}`);
     }
 
-    return {
-        nfts : nftLinks,
-        metaData : jsonData
-    }
+    return res.status(200).send({
+        status : true,
+        result: {
+            nfts: nftLinks,
+            metaData: jsonData
+        }
+
+    })
 }
 
 
 module.exports = {
-    randomImageFunction
+    createCollectionNFT
 }

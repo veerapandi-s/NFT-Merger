@@ -1,7 +1,27 @@
-const { deleteAllData } = require("./helper/util");
-const { apiFunction } = require("./image_generator");
-const { randomImageFunction } = require("./random_image_generator");
+const { deleteAllData } = require('./helper/util');
+const { singleNFT } = require('./image_generator');
+const { createCollectionNFT } = require('./random_image_generator');
 
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
+app.post('/singleNFT',singleNFT);
+
+app.post('/createCollectionNFT',createCollectionNFT);
+
+app.listen(3000, () =>
+    console.log('App listening on port 3000!'),
+);
 
 const callSingleImageGenerate = () => {
     // NFT Name

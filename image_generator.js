@@ -26,19 +26,20 @@ const prepareImageData = async (urls, name, description) => {
 }
 
 // TODO Create API
-const apiFunction = async (name, description, urls) => {
+const singleNFT = async (req, res) => {
+    const { name, description, urls } = req.body;
     const { filePath, metaData } = await prepareImageData(urls, name, description);
     const cloud_url = await uploadFile(filePath, filePath)
-    return {
+    return res.status(200).send({
         status: true,
         result: {
             url: cloud_url,
             metaData: metaData
         }
-    }
+    });
 }
 
 
 module.exports = {
-    apiFunction
+    singleNFT
 }
