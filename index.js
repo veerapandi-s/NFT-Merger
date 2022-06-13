@@ -24,7 +24,7 @@ const callSingleImageGenerate = () => {
 
 
 
-const callRandomImageFunction = () => {
+const callRandomImageFunction = async () => {
     // Number of NFT to generate
     const noOfNFT = 5;
 
@@ -164,7 +164,8 @@ const callRandomImageFunction = () => {
         layer8 = [1, 2, 3, 2, 1, 1]
     ]
 
-    randomImageFunction(noOfNFT, collectionName, description, layers, choice)
+    const response = await randomImageFunction(noOfNFT, collectionName, description, layers, choice);
+
 }
 
 
