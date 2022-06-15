@@ -17,7 +17,7 @@ function zipDirectory(sourceDir, outPath) {
             .pipe(stream)
             ;
 
-        stream.on('close', () => resolve());
+        stream.on('close', () => resolve({outPath}));
         archive.finalize();
     });
 }
@@ -41,7 +41,7 @@ function zipDirectories(sourceDirs, outPath) {
             .pipe(stream)
             ;
 
-        stream.on('close', () => resolve());
+        stream.on('close', () => resolve({outPath}));
         archive.finalize();
     });
 }

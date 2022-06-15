@@ -65,6 +65,7 @@ const saveJSON = async (obj, fileDir, fileName) => {
     fs.writeFile(filePath, json, 'utf8', (err) => {
         console.error(err);
     });
+    return filePath;
 }
 
 const getProperties = (layers_data, name, description) => {
