@@ -25,7 +25,7 @@ const createCollectionNFT = async (req, res) => {
     for (let index = 0; index < finalLayer.length; index++) {
         let element = finalLayer[index];
         element = element.map(file => ({ input: file }));
-        const fileDirImage = `processed_image/${collectionName}`;
+        const fileDirImage = `assets/${collectionName}/processed_image/`;
         const fileNameImage = `${index}.png`
         const localNFTPath = await mergeImageAndSave(element, fileDirImage, `${fileNameImage}`);
         const cloud_url = await uploadFile(localNFTPath, localNFTPath);
@@ -33,7 +33,7 @@ const createCollectionNFT = async (req, res) => {
         const metaData = getProperties(element, index, description);
         nftLinks.push(cloud_url);
         jsonData.push({ image: cloud_url, ...metaData })
-        const fileDirJson = `meta_data/${collectionName}`;
+        const fileDirJson = `assets/${collectionName}/meta_data/`;
         const fileNameJson = `${index}.json`;
         // Storing the JSON
         saveJSON(metaData, fileDirJson, `${fileNameJson}`);

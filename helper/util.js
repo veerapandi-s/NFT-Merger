@@ -115,7 +115,7 @@ const getLocalDir = async (name, urls) => {
         const layerName = elementSplit[elementSplit.length - 2];
         const fileName = elementSplit[elementSplit.length - 1]
 
-        let dir = `raw_image/${name}/layers/${layerName}`;
+        let dir = `assets/${name}/raw_image/layers/${layerName}`;
         let filePath = `${dir}/${fileName}`;
         if (fs.existsSync(filePath)) {
 

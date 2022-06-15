@@ -11,11 +11,11 @@ const prepareImageData = async (urls, name, description) => {
     // Getting meta data from the file directory
     const metaData = getProperties(layers, name, description);
     // Storing the JSON
-    const fileDirJson = `meta_data/${name}`;
+    const fileDirJson = `assets/${name}/meta_data/`;
     const fileNameJson = `${name}.json`;
     // Storing the JSON
     saveJSON(metaData, fileDirJson, `${fileNameJson}`);
-    const fileDirImage = `processed_image`;
+    const fileDirImage = `assets/${name}/processed_image/`;
     const fileNameImage = `${name}.png`
     // Merging pieces into Single NFT
     const filePath = await mergeImageAndSave(layers, fileDirImage, `${fileNameImage}`);
