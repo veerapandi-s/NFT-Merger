@@ -68,6 +68,13 @@ const saveJSON = async (obj, fileDir, fileName) => {
     return filePath;
 }
 
+const checkFolderAndCreate = (fileDir) => {
+    if (!fs.existsSync(fileDir)) {
+        fs.mkdirSync(fileDir, { recursive: true });
+    }
+    return true;
+}
+
 const getProperties = (layers_data, name, description) => {
     let property = [];
     for (let index = 0; index < layers_data.length; index++) {
@@ -166,5 +173,6 @@ module.exports = {
     getProperties,
     mergeImageAndSave,
     getLocalDir,
-    getLocalDirRandom
+    getLocalDirRandom,
+    checkFolderAndCreate
 }

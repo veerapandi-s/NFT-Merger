@@ -1,5 +1,5 @@
 const { pickWeighted } = require("./weighted_random");
-const { saveJSON, getProperties, mergeImageAndSave, getLocalDir, getLocalDirRandom } = require('./helper/util');
+const { saveJSON, getProperties, mergeImageAndSave, checkFolderAndCreate, getLocalDirRandom } = require('./helper/util');
 const { zipDirectory } = require("./compress_folder");
 
 
@@ -39,8 +39,10 @@ const createCollectionNFT = async (req, res) => {
             // Storing the JSON
             saveJSON(metaData, fileDirJson, `${fileNameJson}`);
         }
-        const zipFilePath = await zipDirectory(`assets/${collectionName}`, `zip/${collectionName}.zip`)
-        return res.download(zipFilePath);
+        const zipDir = `assets/zip/`;
+        checkFolderAndCreate(zipDir);
+        const zipFilePath = await zipDirectory(`assets/${collectionName}`, `${zipDir}${collectionName}.zip`);
+        return res. download(zipFilePath.outPath);
     } catch (error) {
         return res.status(400).send({
             status : false,
